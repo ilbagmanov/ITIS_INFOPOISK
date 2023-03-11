@@ -4,7 +4,7 @@
 
 
 
-<title>Знакомство с частотными фильтрами. Часть 1: как спроектировать и немного схитрить / Хабр</title>
+<title>Пишем UART-терминал для Flipper Zero / Хабр</title>
 
 
 
@@ -53,391 +53,34 @@
 
 </head>
 <body>
-<div data-async-called="true" data-server-rendered="true" id="app"><div class="tm-layout__wrapper"><!-- --> <div></div> <div class="tm-feature tm-feature"><!-- --></div> <header class="tm-header"><div class="tm-page-width"><div class="tm-header__container"><div class="tm-header__burger-nav"><button class="tm-header__button tm-header__button_burger" type="button"><svg class="tm-svg-img tm-header__icon tm-header__icon-burger" height="16" width="16"><title>Меню</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#header-burger"></use></svg></button></div> <span class="tm-header__logo-wrap"><a class="tm-header__logo tm-header__logo_ru" href="/ru/"><svg class="tm-svg-img tm-header__icon" height="16" width="16"><title>Хабр</title> <use xlink:href="/img/habr-logo-ru.svg#logo"></use></svg></a> <span class="tm-header__beta-sign" style="display:none;">β</span></span> <!-- --> <div class="tm-header-user-menu tm-header_user-menu"><a class="tm-header-user-menu__item tm-header-user-menu__search" href="/ru/search/"><svg class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search" height="24" width="24"><title>Поиск</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#search"></use></svg></a> <!-- --> <!-- --> <!-- --> <div class="tm-header-user-menu__item"><button class="tm-header-user-menu__toggle" data-test-id="menu-toggle-guest"><svg class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_white" height="24" width="24"><title>Профиль</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#header-user"></use></svg></button> <!-- --></div> <!-- --></div></div></div></header> <div class="tm-layout"><div class="tm-page-progress-bar"></div> <!-- --> <!-- --> <div class="tm-page-width"></div> <main class="tm-layout__container"><div class="tm-page" companyname="selectel" data-async-called="true" hl="ru"><div class="tm-page-width"><div class="tm-page__header"><!-- --></div> <div class="tm-page__wrapper"><div class="tm-page__main tm-page__main_has-sidebar"><div class="pull-down"><!-- --> <div class="pull-down__header" style="height:0px;"><div class="pull-down__content" style="bottom:10px;"><svg class="tm-svg-img pull-down__arrow" height="24" width="24"><title>Обновить</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#pull-arrow"></use></svg></div></div> <div class="tm-article-presenter"> <div class="tm-article-presenter__body"><div class="tm-misprint-area"><div class="tm-misprint-area__wrapper"><article class="tm-article-presenter__content tm-article-presenter__content_narrow"><div class="tm-article-presenter__header"> <div class="tm-article-snippet tm-article-presenter__snippet tm-article-snippet"><div class="tm-article-snippet__meta-container"><div class="tm-article-snippet__meta"><span class="tm-user-info tm-article-snippet__author"><a class="tm-user-info__userpic" href="/ru/users/Doctor_IT/" title="Doctor_IT"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" height="32" src="//habrastorage.org/r/w32/getpro/habr/avatars/dc0/53c/6ea/dc053c6eae54a82bdee1862430f51afc.jpg" width="32"/></div></a> <span class="tm-user-info__user"><a class="tm-user-info__username" href="/ru/users/Doctor_IT/">
-      Doctor_IT
-      <!-- --></a> <span class="tm-article-datetime-published"><time datetime="2023-03-10T12:30:03.000Z" title="2023-03-10, 15:30">вчера в 15:30</time></span></span></span></div> <!-- --></div> <h1 class="tm-article-snippet__title tm-article-snippet__title_h1" lang="ru"><span>Знакомство с частотными фильтрами. Часть 1: как спроектировать и немного схитрить</span></h1> <div class="tm-article-snippet__stats"><div class="tm-article-complexity tm-article-complexity_complexity-medium"><span class="tm-svg-icon__wrapper tm-article-complexity__icon"><svg class="tm-svg-img tm-svg-icon" height="24" width="24"><title>Уровень сложности</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#complexity-medium"></use></svg></span> <span class="tm-article-complexity__label">
-    Средний
-  </span></div> <div class="tm-article-reading-time"><span class="tm-svg-icon__wrapper tm-article-reading-time__icon"><svg class="tm-svg-img tm-svg-icon" height="24" width="24"><title>Время на прочтение</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#clock"></use></svg></span> <span class="tm-article-reading-time__label">
-    7 мин
-  </span></div> <span class="tm-icon-counter tm-data-icons__item"><svg class="tm-svg-img tm-icon-counter__icon" height="24" width="24"><title>Количество просмотров</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-views"></use></svg> <span class="tm-icon-counter__value">2.6K</span></span></div> <div class="tm-article-snippet__hubs-container"><div class="tm-article-snippet__hubs"><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link router-link-active" href="/ru/company/selectel/blog/"><span>Блог компании Selectel</span> <!-- --></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/netdev/"><span>Разработка систем связи</span> <span class="tm-article-snippet__profiled-hub" title="Профильный хаб">*</span></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/circuit-design/"><span>Схемотехника</span> <span class="tm-article-snippet__profiled-hub" title="Профильный хаб">*</span></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/electronics/"><span>Производство и разработка электроники</span> <span class="tm-article-snippet__profiled-hub" title="Профильный хаб">*</span></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/easyelectronics/"><span>Электроника для начинающих</span> <!-- --></a></span></div></div> <div class="tm-article-snippet__labels-container"><div class="tm-article-snippet__labels"><div class="tm-article-snippet__label tm-article-snippet__label_variant-review"><span>
-          Обзор
-        </span></div> </div></div> <!-- --> <!-- --></div></div> <!-- --> <div class="tm-article-body" data-gallery-root="" lang="ru"><div></div> <div id="post-content-body"><div><div class="article-formatted-body article-formatted-body article-formatted-body_version-1"><div xmlns="http://www.w3.org/1999/xhtml"><div style="text-align:center;"><img alt="https://stroitelcentr.ru" data-blurred="true" data-src="https://habrastorage.org/webt/5d/ik/xr/5dikxre2nljvmbbeg9rh7stwgb8.jpeg" src="https://habrastorage.org/r/w780q1/webt/5d/ik/xr/5dikxre2nljvmbbeg9rh7stwgb8.jpeg"/></div><br/>
-Представьте: вы принимаете аналоговый сигнал, смотрите на результаты показаний и видите, что синусоиду «перекосило». Все из-за плохой селективности вашего приемника и шумов, которые он принимает. Чтобы выделить и выровнять полезный сигнал и не слушать бесконечное шипение, в радиоприемнике должны быть качественные фильтры. Но что это такое, как они работают и какими бывают? Давайте разбираться.<br/>
-<br/>
-<b>Используйте навигацию, если не хотите читать текст полностью:</b><br/>
-<br/>
-→ <a href="#1">Что такое частотный фильтр</a><br/>
-→ <a href="#2">Очередной резистивный делитель, или из чего состоят фильтры</a><br/>
-→ <a href="#3">Немного о параметрах частотных фильтров</a><br/>
-→ <a href="#4">Рассчитывать фильтры — это сложно</a><br/>
-→ <a href="#5">Собираем фильтр Чебышева</a><br/>
-<a name="habracut"></a><br/>
-<a name="1"></a><font color="#EB4247"><h2>Что такое частотный фильтр</h2></font><br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/ji/kc/fs/jikcfsj4j5h_tvkgzrxsrqh_bdi.png" src="https://habrastorage.org/r/w1560/webt/ji/kc/fs/jikcfsj4j5h_tvkgzrxsrqh_bdi.png"/></div><br/>
-Синий сигнал — до применения фильтра, оранжевый — после.<br/>
-<br/>
-<blockquote>Частотный фильтр — это электрическая цепь, которая эффективно пропускает только одну область частот. Устройство позволяет «игнорировать» лишние частоты. Тем самым выделять и выравнивать сигналы любой формы — квадратные, синусоидальные, треугольные и другие.</blockquote><br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/cg/aw/zh/cgawzhx_4tg7drarlfzu5gadozq.png" src="https://habrastorage.org/r/w1560/webt/cg/aw/zh/cgawzhx_4tg7drarlfzu5gadozq.png"/></div><br/>
-<i>Пример диапазона частот усиливаемого сигнала. Зависимость коэффициента пропускания по напряжению от частоты сигнала.</i><br/>
-<br/>
-Фильтры широко применяют в измерительной, электронно вычислительной и радиотехнике. Яркий пример из схемотехники приемно-передающих устройств — ФНЧ/ ФПЧ в супергетеродинах и приемниках прямого преобразования, которые помогают выделить определенную частоту из диапазона.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/lv/iy/rt/lviyrt3xzhjt4oow-qik3hnvia4.png" src="https://habrastorage.org/r/w1560/webt/lv/iy/rt/lviyrt3xzhjt4oow-qik3hnvia4.png"/></div><br/>
-<i>Типичная схема супергетеродина.</i><br/>
-<br/>
-Фильтры используют не только в радиостанциях, усилителях и другой профессиональной технике. Их можно встретить в любом приемно-передающем устройстве — например, в смартфоне или роутере. Если говорить о более «прекрасном», то фильтры используют в эквалайзерах для обработки аудиосигналов.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/42/lz/ne/42lznefyx_afsg5cal9f0uw3zke.png" src="https://habrastorage.org/r/w1560/webt/42/lz/ne/42lznefyx_afsg5cal9f0uw3zke.png"/></div><br/>
-<i>Эквалайзер FabFilter Pro-Q2.</i><br/>
-<br/>
-<h3>Какие бывают фильтры</h3><br/>
-Чаще всего можно встретить фильтры нижних частот (ФНЧ) и верхних (ФВЧ), а также полосовые и заградительные.<br/>
-<br/>
-<blockquote><b>Фильтр верхних частот</b> — пропускает частоты выше частоты среза.<br/>
-<br/>
-<b>Фильтр нижних частот</b> — пропускает частоты ниже частоты среза.<br/>
-<br/>
-<b>Полосовой фильтр</b> — пропускает определенную полосу.<br/>
-<br/>
-<b>Заградительный фильтр</b> — не пропускает частоты определенной полосы, но пропускает колебания, выходящие за ее пределы.</blockquote><br/>
-Частота среза — это такая частота, после которой идет фронт (спад) с полосы пропускания на полосу заграждения. Посмотрим, как это выглядит на АЧХ ФНЧ:<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/kp/q5/z-/kpq5z-rmz06e4zovkpgfrbnc74o.png" src="https://habrastorage.org/r/w1560/webt/kp/q5/z-/kpq5z-rmz06e4zovkpgfrbnc74o.png"/></div><br/>
-<i>Видно, что с увеличением частоты падает коэффициент передачи.</i><br/>
-<br/>
-<blockquote>И вот простое правило: чем круче спад, тем круче фильтр.</blockquote><br/>
-Соответственно, для названных видов фильтров АЧХ будут следующими:<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/9l/cb/ql/9lcbqlilgo7p0cfomhwtu8qezxe.png" src="https://habrastorage.org/r/w1560/webt/9l/cb/ql/9lcbqlilgo7p0cfomhwtu8qezxe.png"/></div><br/>
-<i>АЧХ для ФНЧ, ФВЧ, полосового и режекторного (заградительного) фильтров.</i><br/>
-<br/>
-Согласитесь — красивые рисунки! Но как получить это на <s>плате</s> практике?<br/>
-<br/>
-<a href="https://selectel.ru/services/dedicated/?utm_source=habr.com&amp;utm_medium=referral&amp;utm_campaign=dedicated_article_filter_100323_banner"><div style="text-align:center;"><img data-src="https://habrastorage.org/webt/5_/4y/nr/5_4ynrojdbgluj59gv4aqahnook.png" src="https://habrastorage.org/r/w1560/webt/5_/4y/nr/5_4ynrojdbgluj59gv4aqahnook.png"/></div></a><br/>
-<br/>
-<a name="2"></a><font color="#EB4247"><h2>Очередной резистивный делитель, или из чего состоят фильтры</h2></font><br/>
-На самом деле, схема фильтра напоминает резистивный делитель (делитель напряжения на резисторах). Посмотрите сами:<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/e5/dd/n-/e5ddn-kk77m_6a_aexnq8b9xip4.png" src="https://habrastorage.org/r/w1560/webt/e5/dd/n-/e5ddn-kk77m_6a_aexnq8b9xip4.png"/></div><br/>
-<i>Слева — резистивный делитель, справа — электрический фильтр.</i><br/>
-<br/>
-Разница буквально в одном элементе: вместо резистора стоит конденсатор. Но на АЧХ это влияет очень сильно. При включении делителя АЧХ будет стабильна, то есть частота источника на выходную амплитуду никак влиять не будет. Другая ситуация с фильтром: на определенной частоте появляется явный срез.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/pi/bb/gr/pibbgr1bgtm_72qiguhs3bmd-fk.png" src="https://habrastorage.org/r/w1560/webt/pi/bb/gr/pibbgr1bgtm_72qiguhs3bmd-fk.png"/></div><br/>
-<i>АЧХ резистивного делителя.</i><br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/xy/ip/ah/xyipahh1yhoa-08sptsrrpsv39a.png" src="https://habrastorage.org/r/w1560/webt/xy/ip/ah/xyipahh1yhoa-08sptsrrpsv39a.png"/></div><br/>
-<i>АЧХ ФНЧ.</i><br/>
-<br/>
-Это связано с тем, что при увеличении частоты тока сопротивление на конденсаторе уменьшается и напряжение падает — по такому принципу работают ФНЧ.<br/>
-<br/>
-<blockquote><b>Запомните правило.</b> Емкостное сопротивление обратно пропорционально частоте тока и емкости конденсатора — чем больше их величины, тем меньше емкостное сопротивление.</blockquote><br/>
-АЧХ можно «отразить», если поменять емкость и резистор местами — превратить ФНЧ в ФВЧ. Но это не все варианты схемотехнического многообразия<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/kw/4h/ko/kw4hkogjinds1ppbb6j_ylg7jpy.png" src="https://habrastorage.org/r/w1560/webt/kw/4h/ko/kw4hkogjinds1ppbb6j_ylg7jpy.png"/></div><br/>
-<i>Схема и АЧХ для RC-ФВЧ.</i><br/>
-<br/>
-<h3>LC-фильтры</h3><br/>
-Вместо резистора можно поставить индуктивность, и тогда вместо привычного ФНЧ (RC-ФНЧ) получим LC-ФНЧ. Суть та же: у него будет своя частота среза и так далее. Но добротность фильтра будет выше — соответственно, область частот, которую пропускает фильтр (она же полоса пропускания), будет меньше, а спад АЧХ — круче. Именно LC-контуры используются в фильтрах для работы с высокочастотным диапазоном.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/9n/ay/3p/9nay3pnseqt2ghchfvjfpnqoycg.png" src="https://habrastorage.org/r/w1560/webt/9n/ay/3p/9nay3pnseqt2ghchfvjfpnqoycg.png"/></div><br/>
-<i>LC-фильтры.</i><br/>
-<br/>
-<blockquote><b>Принцип построения LC-фильтров основан на свойствах емкостей и индуктивностей по-разному вести себя в цепях переменного тока. </b><br/>
-<br/>
-Индуктивное сопротивление катушки прямо пропорционально частоте тока, проходящего через нее. Следовательно, чем выше частота тока на катушке, тем большее реактивное сопротивление она этому току оказывает — сильнее задерживает переменные токи на более высоких частотах и легче пропускает на более низких.<br/>
-<br/>
-У конденсатора наоборот: чем выше частота тока, тем легче протекает переменный ток. А чем ниже его частота, тем большим препятствием для тока оказывается этот конденсатор.</blockquote><br/>
-Схемы режекторного и полосового фильтров чуть сложней. Режекторный фильтр — это цепь с параллельно соединенными индуктивностью и емкостью, а полосовой — с последовательно соединенными.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/v2/uv/no/v2uvnoiqbsafccbtabsew83upgc.png" src="https://habrastorage.org/r/w1560/webt/v2/uv/no/v2uvnoiqbsafccbtabsew83upgc.png"/></div><br/>
-<i>Слева — режекторный фильтр, справа — полосовой.</i><br/>
-<br/>
-<h3>Г-, Т- и П-образные фильтры</h3><br/>
-Схематически ФНЧ и ФВЧ бывают Г-образными, Т-образными и П-образными (многозвенными).<br/>
-<br/>
-Г-образные — это схемы ФНЧ и ФВЧ, которые мы рассмотрели выше. Их входные сопротивления всегда меньше выходных. Г-образные фильтры часто применяют в качестве трансформаторных сопротивлений. В качестве фильтров обычно используют П- и Т-образные схемы.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/d_/si/gd/d_sigdyki93rnkvepz1amp1x_m4.png" src="https://habrastorage.org/r/w1560/webt/d_/si/gd/d_sigdyki93rnkvepz1amp1x_m4.png"/></div><br/>
-<i>Г-, П- и Т-образные RC-фильтры.</i><br/>
-<br/>
-<blockquote>Тип схемы обычно выбирают из экономических соображений. Например, для сборки LC-ФНЧ лучше использовать П-образную схему, чтобы сэкономить катушки индуктивности, а для LC-ФВЧ — Т-образную.</blockquote><br/>
-<a name="3"></a><font color="#EB4247"><h2>Немного о параметрах частотных фильтров</h2></font><br/>
-Вот мы упомянули, что у фильтров есть ширина полосы пропускания, добротность, частота среза. Но все ли это параметры и как они связаны? Давайте разбираться.<br/>
-<br/>
-<h3>Ключевые параметры</h3><br/>
-При проектировании частотных фильтров учитывают следующие параметры:<br/>
-<br/>
-<ul>
-<li><b>наклон АЧХ</b> — чем круче, тем лучше, </li>
-<li><b>частота среза</b> — выбирается разработчиком, </li>
-<li><b>неравномерность АЧХ</b> — чем меньше, тем лучше,</li>
-<li><b>отношение входного и выходного сопротивлений </b>— особенно важный параметр для ВЧ-фильтров, </li>
-<li><b>ослабление в полосе задержания </b>— оно же ослабление в полосе заграждения, но без учета переходного участка (длительности фронта).</li>
-</ul><br/>
-Самый важный параметр — это частота среза. С помощью нее мы можем регулировать, какую долю частотного диапазона «проигнорировать», а какую — оставить. Поговорим о ней чуть подробнее.<br/>
-<br/>
-<h3>Подробнее о частоте среза </h3><br/>
-<blockquote>Частота среза — это такая частота, на которой ослабление фильтра равно -3 дБ в логарифмическом масштабе (в линейном это 0,707).</blockquote><br/>
-Важно отметить, что частота среза для ФНЧ и ФВЧ вычисляется по одному выражению:<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/p2/pq/23/p2pq23bt-ttivsqilymebsjxake.png" src="https://habrastorage.org/r/w1560/webt/p2/pq/23/p2pq23bt-ttivsqilymebsjxake.png"/></div><br/>
-Зная сопротивление/ индуктивность и емкость, можно определить, на какой частоте случится ослабление на -3 дБ. То есть, опираясь на нужную частоту среза, мы можем рассчитать и спроектировать фильтр. Или не все так просто?<br/>
-<br/>
-<h3>Что такое порядок фильтра</h3><br/>
-Допустим, вы знаете частоту среза и хотите спроектировать фильтр. Но что такое R, C и L? Обычные номиналы для сопротивления, емкости и индуктивности? Вы можете ответить «да» и будете правы: для ФНЧ и ФВЧ второго порядка (самых обычных Г-образных RC- и LC-фильтров) достаточно подобрать резистор, конденсатор и катушку с нужными параметрами. Но для фильтров больших порядков ответ неоднозначный.<br/>
-<br/>
-Наклон АЧХ удовлетворяет не всегда: если он сильно пологий, то радиоприемное устройство может поймать лишние частоты. Чтобы избавиться от такого эффекта, разработчики стараются делать фильтры с крутым наклоном АЧХ.<br/>
-<br/>
-Наклон АЧХ тем круче, чем больше ослабление в полосе задержания и выше порядок фильтра. Последнее указывает на количество L- и C- элементов: в фильтре пятого порядка будет, например, три емкости и две индуктивности.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/rf/bw/qx/rfbwqxerhivkehuhslv2zeh2qfo.png" src="https://habrastorage.org/r/w1560/webt/rf/bw/qx/rfbwqxerhivkehuhslv2zeh2qfo.png"/></div><br/>
-<i>Зависимость крутизны наклона АЧХ от количества порядков (n).</i><br/>
-<br/>
-Можно сказать, что каждый LC-элемент — индуктивность или емкость — дает уклонение АЧХ на 12 дБ на октаву, тогда как RC — всего 6 дБ на октаву.<br/>
-<br/>
-<blockquote>Октава — это область частотного диапазона, на которой значение частоты увеличивается в два раза. Иногда в литературе предпочитают измерять в декадах, которые обозначают область с увеличением частоты в десять раз.</blockquote><br/>
-<a name="4"></a><font color="#EB4247"><h2>Рассчитывать фильтры — это сложно</h2></font><br/>
-Теперь вы знаете, что означают те самые R, C и L в формулах для частоты среза: это «суммы» номиналов для элементов фильтра. Стало ли от этого проще рассчитывать фильтры под определенную частоту среза? Не особо.<br/>
-<br/>
-<blockquote>Расчет фильтров — это отдельная наука, объединяющая теорию электрических цепей, электротехнику и математические методы.</blockquote><br/>
-Чтобы рассчитать фильтр большого порядка по заданным условиям, применяют специальные методики. Среди них — формулы на базе полиномов Баттерворта и Чебышева, функций Бесселя.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/z2/uu/ly/z2uulye_ylpor02vkwa7qnzgqec.png" src="https://habrastorage.org/r/w1560/webt/z2/uu/ly/z2uulye_ylpor02vkwa7qnzgqec.png"/></div><br/>
-<i>Нормированные АЧХ фильтров.</i><br/>
-<br/>
-По сути, выбирая конкретную методику, вы выбираете фильтр:<br/>
-<br/>
-<ul>
-<li><b>Фильтр Баттерворта</b> — обладает самой плоской характеристикой затухания в полосе пропускания, за счет этого имеет плавный спад.</li>
-<li><b>Фильтр Чебышева</b> — обладает самым крутым спадом, но у него самые неравномерные характеристики в полосе пропускания.</li>
-<li><b>Фильтр Бесселя</b> — имеет хорошую фазочастотную характеристику и крутой спад.</li>
-</ul><br/>
-Чтобы понять теорию расчета фильтров, рекомендую <a href="https://soundmain.ru/resources/g-lehm-analogovye-i-cifrovye-filtry-raschet-i-realizacija.259/">почитать</a> книгу «Аналоговые и цифровые фильтры». Если хотите утонуть в полиномах, аналитических вычислениях комплексных расчетах, сохраняйте в закладки.<br/>
-<br/>
-Но рассчитать фильтр можно проще, если «схитрить» и использовать онлайн-калькулятор. Так можно узнать, например, номиналы для фильтра Чебышева пятого порядка с частотой среза 4 МГц. Проверим, работает ли он на практике.<br/>
-<br/>
-<blockquote><b>Возможно, эти тексты тоже вас заинтересуют:</b><br/>
-<br/>
-→ <a href="https://habr.com/ru/company/selectel/blog/719520">Как геймифицировать аренду серверов со скидкой, связав сайт с внутренней панелью администрирования</a><br/>
-→ <a href="https://habr.com/ru/company/selectel/blog/714294">Первая «зеркалка» от Polaroid, робот-пылесос iRobot, гомеопатия начала XX века и кое-что еще: новые находки на барахолке</a><br/>
-→ <a href="https://habr.com/ru/company/selectel/blog/719402">Проблемы безопасности SNMP на практике: имитация атак и меры профилактики</a></blockquote><br/>
-<a name="5"></a><font color="#EB4247"><h2>Собираем фильтр Чебышева</h2></font><br/>
-Предварительно я узнал номиналы через онлайн-калькулятор и проверил фильтр в Multisim. Если подключить параллельно Bode Plotter и правильно установить масштабы, программа покажет идеальную АЧХ фильтра Чебышева.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/4r/hq/zo/4rhqzoj0nleehis37bqbxips5ok.png" src="https://habrastorage.org/r/w1560/webt/4r/hq/zo/4rhqzoj0nleehis37bqbxips5ok.png"/></div><br/>
-Multisim, схема ФНЧ Чебышева пятого порядка.<br/>
-<br/>
-Супер — схему можно «перенести» на макетную плату. <br/>
-<br/>
-Понадобится генератор гармонических колебаний и осциллограф, подключенный к выходам фильтра. Если у вас есть анализатор цепей, можно использовать его.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/zm/-b/hj/zm-bhjoxuwbck4nu0ookmliupcy.png" src="https://habrastorage.org/r/w1560/webt/zm/-b/hj/zm-bhjoxuwbck4nu0ookmliupcy.png"/></div><br/>
-<i>С</i><i>инусоида синего цвета — выходной сигнал, желтого — входной.</i><br/>
-<br/>
-<blockquote><b>Обратите внимание.</b> Электрическая схема может отличаться по номиналам от идеальной, которую вы рассчитали под свою частоту среза. Не всегда возможно точно повторить значения емкостей и индуктивностей, потому что элементов с такими номиналами может просто и не быть.</blockquote><br/>
-Постепенно увеличивая частоту входного сигнала, можно составить таблицу для построения графика.<div class="scrollable-table"><table>
-<tr>
-<td>Частота, МГц<br/>
-</td>
-<td>Вход, мВ)<br/>
-</td>
-<td>Выход, мВ<br/>
-</td>
-<td>Вход, дел<br/>
-</td>
-<td>Выход, дел<br/>
-</td>
-<td>Вход<br/>
-</td>
-<td>Выход<br/>
-</td>
-</tr>
-<tr>
-<td>0,5<br/>
-</td>
-<td>500<br/>
-</td>
-<td>50<br/>
-</td>
-<td>26<br/>
-</td>
-<td>14<br/>
-</td>
-<td>13000<br/>
-</td>
-<td>700<br/>
-</td>
-</tr>
-<tr>
-<td>1<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>50<br/>
-</td>
-<td>13<br/>
-</td>
-<td>13<br/>
-</td>
-<td>13000<br/>
-</td>
-<td>650<br/>
-</td>
-</tr>
-<tr>
-<td>1,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>50<br/>
-</td>
-<td>14<br/>
-</td>
-<td>13<br/>
-</td>
-<td>14000<br/>
-</td>
-<td>650<br/>
-</td>
-</tr>
-<tr>
-<td>2,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>50<br/>
-</td>
-<td>14<br/>
-</td>
-<td>14<br/>
-</td>
-<td>14000<br/>
-</td>
-<td>700<br/>
-</td>
-</tr>
-<tr>
-<td>4<br/>
-</td>
-<td>500<br/>
-</td>
-<td>50<br/>
-</td>
-<td>12<br/>
-</td>
-<td>12<br/>
-</td>
-<td>6000<br/>
-</td>
-<td>600<br/>
-</td>
-</tr>
-<tr>
-<td>5,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>10<br/>
-</td>
-<td>11<br/>
-</td>
-<td>9<br/>
-</td>
-<td>11000<br/>
-</td>
-<td>90<br/>
-</td>
-</tr>
-<tr>
-<td>6,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>2<br/>
-</td>
-<td>9<br/>
-</td>
-<td>11<br/>
-</td>
-<td>9000<br/>
-</td>
-<td>22<br/>
-</td>
-</tr>
-<tr>
-<td>7,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>2<br/>
-</td>
-<td>7<br/>
-</td>
-<td>10<br/>
-</td>
-<td>7000<br/>
-</td>
-<td>20<br/>
-</td>
-</tr>
-<tr>
-<td>8,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>2<br/>
-</td>
-<td>6<br/>
-</td>
-<td>11<br/>
-</td>
-<td>6000<br/>
-</td>
-<td>22<br/>
-</td>
-</tr>
-<tr>
-<td>10,5<br/>
-</td>
-<td>1000<br/>
-</td>
-<td>2<br/>
-</td>
-<td>5<br/>
-</td>
-<td>11<br/>
-</td>
-<td>5000<br/>
-</td>
-<td>22<br/>
-</td>
-</tr>
-</table></div>Если отразить значения на системе координат, получится график для фильтра Чебышева.<br/>
-<br/>
-<div style="text-align:center;"><img data-src="https://habrastorage.org/webt/sd/zl/hy/sdzlhyb5mc4pozjnrpywcy2lyi0.png" src="https://habrastorage.org/r/w1560/webt/sd/zl/hy/sdzlhyb5mc4pozjnrpywcy2lyi0.png"/></div><br/>
-Готово — у нас получилось добиться вполне крутого спада на частоте 4 МГц, ФНЧ Чебышева работает.<br/>
-<br/>
-<blockquote>В статье рассмотрена лишь малая часть теоретических и практических аспектов. Фильтров гораздо больше: есть активные на базе операционных усилителей, микроконтроллеров, рассчитанные топологии Саллена-Ки и программные фильтры. Обо всем этом — в следующей статье.</blockquote></div></div></div> <!-- --> <!-- --></div> <!-- --> <!-- --></div> <!-- --> <div class="tm-article-presenter__meta"><div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Теги:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5Bselectel%5D">selectel</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D1%80%D0%B0%D0%B4%D0%B8%D0%BE%D1%82%D0%B5%D1%85%D0%BD%D0%B8%D0%BA%D0%B0%5D">радиотехника</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D1%82%D0%B5%D1%85%D0%BD%D0%B8%D0%BA%D0%B0%5D">электротехника</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%BD%D1%8B%D0%B5%20%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B%5D">частотные фильтры</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D1%81%D1%85%D0%B5%D0%BC%D0%BE%D1%82%D0%B5%D1%85%D0%BD%D0%B8%D0%BA%D0%B0%5D">схемотехника</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BD%D0%B8%D0%BA%D0%B8%5D">приемники</a></li></ul></div> <div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Хабы:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a class="tm-hubs-list__link router-link-active" href="/ru/company/selectel/blog/">Блог компании Selectel</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/netdev/">Разработка систем связи</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/circuit-design/">Схемотехника</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/electronics/">Производство и разработка электроники</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/easyelectronics/">Электроника для начинающих</a></li></ul></div></div></article></div> <!-- --></div> <div class="tm-article-sticky-panel"><div class="tm-data-icons tm-article-sticky-panel__icons"><div class="tm-article-rating tm-data-icons__item"><div class="tm-votes-meter tm-article-rating__votes-switcher"><svg class="tm-svg-img tm-votes-meter__icon tm-votes-meter__icon tm-votes-meter__icon_appearance-article" height="24" width="24"><title>Всего голосов 43: ↑42 и ↓1</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-rating"></use></svg> <span class="tm-votes-meter__value tm-votes-meter__value tm-votes-meter__value_positive tm-votes-meter__value_appearance-article tm-votes-meter__value_rating" title="Всего голосов 43: ↑42 и ↓1">+41</span></div> <div class="v-portal" style="display:none;"></div></div> <!-- --> <!-- --> <button class="bookmarks-button tm-data-icons__item" title="Добавить в закладки" type="button"><span class="tm-svg-icon__wrapper bookmarks-button__icon"><svg class="tm-svg-img tm-svg-icon" height="24" width="24"><title>Добавить в закладки</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-favorite"></use></svg></span> <span class="bookmarks-button__counter" title="Количество пользователей, добавивших публикацию в закладки">
-    38
-  </span></button> <div class="tm-sharing tm-data-icons__item" title="Поделиться"><button class="tm-sharing__button" type="button"><svg class="tm-sharing__icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.8 13.8V18l7.2-6.6L13.8 5v3.9C5 8.9 3 18.6 3 18.6c2.5-4.4 6-4.8 10.8-4.8z" fill="currentColor"></path></svg></button> <div class="v-portal" style="display:none;"></div></div> <div class="tm-article-comments-counter-link tm-data-icons__item" title="Читать комментарии"><a class="tm-article-comments-counter-link__link" href="/ru/company/selectel/blog/721558/comments/"><svg class="tm-svg-img tm-article-comments-counter-link__icon" height="24" width="24"><title>Комментарии</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value">
-      14
-    </span></a> <!-- --></div> <!-- --> <div class="v-portal" style="display:none;"></div></div></div></div> <div class="tm-article-presenter__footer"><div class="tm-article-blocks"><!-- --> <div></div> <section class="tm-block tm-block tm-block_spacing-bottom"><!-- --> <div class="tm-block__body tm-block__body tm-block__body_variant-balanced"><div class="tm-article-author"><div class="tm-article-author__company"><div class="tm-article-author__company-card"><div class="tm-company-snippet"><a class="tm-company-snippet__logo-link" href="/ru/company/selectel/profile/"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" height="40" src="//habrastorage.org/getpro/habr/company/66a/f7d/039/66af7d03979b6d18654293d8f1e72837.png" width="40"/></div></a> <div class="tm-company-snippet__info"><a class="tm-company-snippet__title" href="/ru/company/selectel/profile/">Selectel</a> <div class="tm-company-snippet__description">IT-инфраструктура для бизнеса</div></div></div> <div class="tm-article-author__buttons"><!-- --> <!-- --></div></div> <div class="tm-article-author__company-contacts"><a class="tm-article-author__contact" href="https://vk.com/selectel" rel="noopener" target="_blank">
+<div data-async-called="true" data-server-rendered="true" id="app"><div class="tm-layout__wrapper"><!-- --> <div></div> <div class="tm-feature tm-feature"><!-- --></div> <header class="tm-header"><div class="tm-page-width"><div class="tm-header__container"><div class="tm-header__burger-nav"><button class="tm-header__button tm-header__button_burger" type="button"><svg class="tm-svg-img tm-header__icon tm-header__icon-burger" height="16" width="16"><title>Меню</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#header-burger"></use></svg></button></div> <span class="tm-header__logo-wrap"><a class="tm-header__logo tm-header__logo_ru" href="/ru/"><svg class="tm-svg-img tm-header__icon" height="16" width="16"><title>Хабр</title> <use xlink:href="/img/habr-logo-ru.svg#logo"></use></svg></a> <span class="tm-header__beta-sign" style="display:none;">β</span></span> <!-- --> <div class="tm-header-user-menu tm-header_user-menu"><a class="tm-header-user-menu__item tm-header-user-menu__search" href="/ru/search/"><svg class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search" height="24" width="24"><title>Поиск</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#search"></use></svg></a> <!-- --> <!-- --> <!-- --> <div class="tm-header-user-menu__item"><button class="tm-header-user-menu__toggle" data-test-id="menu-toggle-guest"><svg class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_white" height="24" width="24"><title>Профиль</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#header-user"></use></svg></button> <!-- --></div> <!-- --></div></div></div></header> <div class="tm-layout"><div class="tm-page-progress-bar"></div> <!-- --> <!-- --> <div class="tm-page-width"></div> <main class="tm-layout__container"><div class="tm-page" companyname="sportmaster_lab" data-async-called="true" hl="ru"><div class="tm-page-width"><div class="tm-page__header"><div class="tm-company-card__branding tm-company-article__branding tm-company-card__branding_loading"><div class="tm-company-card__branding-placeholder"><!-- --></div> <a href="https://hh.ru/employer/2343#sportmaster-lab"><img class="tm-company-card__branding-image" src="//habrastorage.org/getpro/habr/branding/5cc/de7/796/5ccde7796e80bd7e31097b3cfabe3eaf.png" width="100%"/></a></div></div> <div class="tm-page__wrapper"><div class="tm-page__main tm-page__main_has-sidebar"><div class="pull-down"><!-- --> <div class="pull-down__header" style="height:0px;"><div class="pull-down__content" style="bottom:10px;"><svg class="tm-svg-img pull-down__arrow" height="24" width="24"><title>Обновить</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#pull-arrow"></use></svg></div></div> <div class="tm-article-presenter"> <div class="tm-article-presenter__body"><div class="tm-misprint-area"><div class="tm-misprint-area__wrapper"><article class="tm-article-presenter__content tm-article-presenter__content_narrow"><div class="tm-article-presenter__header"> <div class="tm-article-snippet tm-article-presenter__snippet tm-article-snippet"><div class="tm-article-snippet__meta-container"><div class="tm-article-snippet__meta"><span class="tm-user-info tm-article-snippet__author"><a class="tm-user-info__userpic" href="/ru/users/cool4uma/" title="cool4uma"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" height="32" src="//habrastorage.org/r/w32/getpro/habr/avatars/205/398/21d/20539821dd8a9ed77ddb160292062bdc.jpg" width="32"/></div></a> <span class="tm-user-info__user"><a class="tm-user-info__username" href="/ru/users/cool4uma/">
+      cool4uma
+      <!-- --></a> <span class="tm-article-datetime-published"><time datetime="2023-03-10T12:30:03.000Z" title="2023-03-10, 15:30">вчера в 15:30</time></span></span></span></div> <!-- --></div> <h1 class="tm-article-snippet__title tm-article-snippet__title_h1" lang="ru"><span>Пишем UART-терминал для Flipper Zero</span></h1> <div class="tm-article-snippet__stats"><!-- --> <div class="tm-article-reading-time"><span class="tm-svg-icon__wrapper tm-article-reading-time__icon"><svg class="tm-svg-img tm-svg-icon" height="24" width="24"><title>Время на прочтение</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#clock"></use></svg></span> <span class="tm-article-reading-time__label">
+    3 мин
+  </span></div> <span class="tm-icon-counter tm-data-icons__item"><svg class="tm-svg-img tm-icon-counter__icon" height="24" width="24"><title>Количество просмотров</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-views"></use></svg> <span class="tm-icon-counter__value">2.2K</span></span></div> <div class="tm-article-snippet__hubs-container"><div class="tm-article-snippet__hubs"><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link router-link-active" href="/ru/company/sportmaster_lab/blog/"><span>Блог компании Sportmaster Lab</span> <!-- --></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/infosecurity/"><span>Информационная безопасность</span> <span class="tm-article-snippet__profiled-hub" title="Профильный хаб">*</span></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/electronics/"><span>Производство и разработка электроники</span> <span class="tm-article-snippet__profiled-hub" title="Профильный хаб">*</span></a></span><span class="tm-article-snippet__hubs-item"><a class="tm-article-snippet__hubs-item-link" href="/ru/hub/gadgets/"><span>Гаджеты</span> <!-- --></a></span></div></div> <div class="tm-article-snippet__labels-container"><div class="tm-article-snippet__labels"><div class="tm-article-snippet__label tm-article-snippet__label_variant-tutorial"><span>
+          Туториал
+        </span></div> </div></div> <!-- --> <!-- --></div></div> <!-- --> <div class="tm-article-body" data-gallery-root="" lang="ru"><div></div> <div id="post-content-body"><div><div class="article-formatted-body article-formatted-body article-formatted-body_version-2"><div xmlns="http://www.w3.org/1999/xhtml"><p>Почти все, кому надо и кому интересно, уже знакомы с <a href="https://flipperzero.one/">Flipper Zero</a> и знают, что это такое.</p><figure class="full-width"><img data-src="https://habrastorage.org/getpro/habr/upload_files/388/c73/d1d/388c73d1dbb12be2dac923367ffde3ce.png" height="376" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/388/c73/d1d/388c73d1dbb12be2dac923367ffde3ce.png" width="1342"/></figure><p>Для тех же, кто ещё не в курсе, приведу небольшое определение: Flipper Zero — это компактный цифровой мультитул для пентестеров и гиков. А ещё это тамагочи, в котором живет вполне себе дружелюбный кибер-дельфин.</p><h2>Знакомство с дельфином</h2><p>В августе прошлого года в одной из малиновых тусовок (канал в telegram по RaspberryPi) я как обычно пролистывал на большой скорости длинную «простыню» обсуждений. И тут мой глаз удивительным образов заметил хорошо знакомые слова — «Flipper Zero». Прочитав сообщение, я узнал, что сей девайс не просто уже существует, но и его можно, наконец, купить в России. </p><p>В общем, и завертелось 😊</p><p>Какое-то время я провел с новой игрушкой, изучая ее возможности, но потом у меня всё же зачесались руки — я стал думать, чего бы ещё полезного можно добавить в такой мультитул для пентестера и гика. Гордо зваться пентестером я пока не могу, а вот к гикам себя вполне заслуженно отношу. И как гику мне во Флиппере очень не хватало UART-терминала.</p><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/294/c2c/cf8/294c2ccf8ee044965de92cf9a6f5969e.png" height="256" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/294/c2c/cf8/294c2ccf8ee044965de92cf9a6f5969e.png" width="512"/></figure><p>Да, в стоковой прошивке flipper'а есть замечательный fap (гусары, молчать, это Flipper Application Package) «UART Echo». Он на скорости 115200 baud читает и принимает по uart и выводит на экран.</p><p>Но есть печаль — он не умеет слать пользовательские команды в uart и скроллить вывод. </p><p>Судя по исходникам прошивки и плагинов, под Flipper принято писать на голом C, без плюсов, хотя разработчики сообщают, что давно уже можно писать и на С++. Сразу же скажу, что ранее вообще ничего не писал и не «ковырял» на C, поэтому прошу не судить строго.</p><h2>Пишем UART-терминал</h2><p>Все грандиозные дела у меня принято планировать на новогодние каникулы, так что терминал для Flipper постигла та же участь. Как уже писал выше, опыта в написании кода на C у меня не было и уж тем более под Flipper Zero. В интернетах документации по разработке под Flipper совсем немного, практически всю мудрость приходится черпать из исходников прошивки и плагинов. </p><p>Но мир не без добрых людей, для старта есть замечательная статья «<a href="https://yakovlev.me/hello-flipper-zero/"><u>Сборка Hello World под Flipper Zero</u></a>» от Павла Яковлева, за что ему огромное спасибо.</p><p>Меня как эникейщика и сисадмина в прошлом иногда преследуют старые <s>фантомные боли</s> привычки — поиск быстрого решения. Поэтому я решил для себя, что написать с нуля — это не мой путь. Ну, как минимум, прямо сейчас.</p><p>За основу своего <a href="https://github.com/cool4uma/UART_Terminal">UART_Terminal</a> я взял код проекта <a href="https://github.com/0xchocolate/flipperzero-firmware-with-wifi-marauder-companion"><u>WiFi Marauder companion</u></a>, порядка 60% того, что мне было нужно, уже было реализовано в коде проекта, поэтому выражаю огромную благодарность разработчикам. </p><p>Итак, имея основу, мне оставалось сделать вот что:</p><ul><li><p>Выпилить все лишнее.</p></li><li><p>Добавить возможность выбора BaudRate (2400, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600).</p></li><li><p>Доработать инициализацию uart.</p></li><li><p>Сделать свою клавиатуру на основе стоковой.</p></li><li><p>Добавить быстрые команды (Fast cmd). </p></li></ul><p>Теперь конкретно по UART-терминалу:</p><p><a href="https://github.com/cool4uma/UART_Terminal">UART_Terminal</a>  — это приложение Flipper Zero для управления 	различными устройствами через интерфейс UART.</p><p><strong>Возможности</strong>:</p><ul><li><p>чтение лога и вывода команд по uart</p></li><li><p>отправка команд по uart</p></li><li><p>установка скорости uart</p></li><li><p>быстрые команды</p></li></ul><p><strong>Подключение:</strong></p><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/522/36d/7d3/52236d7d373441fad3f1a9f980f8aea7.png" height="170" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/522/36d/7d3/52236d7d373441fad3f1a9f980f8aea7.png" width="322"/></figure><p>По умолчанию uart инициализируется на скорости 115200 baud, сразу после запуска.</p><figure class="full-width"><img data-blurred="true" data-src="https://habrastorage.org/getpro/habr/upload_files/f40/19a/fb0/f4019afb05926b09278519b5101fa4f2.jpg" height="1253" src="https://habrastorage.org/r/w780q1/getpro/habr/upload_files/f40/19a/fb0/f4019afb05926b09278519b5101fa4f2.jpg" width="2856"/></figure><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/1ac/44a/e39/1ac44ae39422bf6ee382b81efe1ed6d0.png" height="256" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/1ac/44a/e39/1ac44ae39422bf6ee382b81efe1ed6d0.png" width="512"/></figure><p><strong>Быстрые команды</strong>. Так как набор текста на flipper'е — занятие не из самых приятных, предусмотрен набор быстрых команд (help, uptime, date, df -h, ps, dmesg, reboot, poweroff).</p><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/235/a1c/589/235a1c58907132e036fbebed6ffa7c7e.png" height="256" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/235/a1c/589/235a1c58907132e036fbebed6ffa7c7e.png" width="512"/></figure><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/06b/799/280/06b7992809148201ffa9c08fd860a7de.png" height="256" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/06b/799/280/06b7992809148201ffa9c08fd860a7de.png" width="512"/></figure><p><strong>Клавиатура</strong>. В проекте, который был взят мною за основу, для ввода команд вызывалась встроенная в прошивку flipper'а клавиатура. Родная клавиатура содержит только буквы, цифры, пробел и подчеркивание. </p><p>Также отсутствовала возможность набора команды / текста с маленькой буквы, то есть, хотите вы этого или нет, но первая буква в наборе будет заглавной. В последней версии прошивки разработчики сообщают, что поправили «фичу» обязательной заглавной буквы, и теперь у пользователя есть возможность набирать текст с маленькой буквы. </p><p>В общем, так как родная клавиатура не рассчитана на работу в терминале, мне пришлось скопировать ее код себе в проект, доработать, и вызывать уже свою клавиатуру для ввода команд.</p><figure class="full-width"><img data-blurred="true" data-src="https://habrastorage.org/getpro/habr/upload_files/79f/9c5/181/79f9c518186584829207a0b01b68ef06.jpg" height="1235" src="https://habrastorage.org/r/w780q1/getpro/habr/upload_files/79f/9c5/181/79f9c518186584829207a0b01b68ef06.jpg" width="2841"/></figure><figure class=""><img data-src="https://habrastorage.org/getpro/habr/upload_files/efb/f2f/b57/efbf2fb579eae876deaf158552e5d6f3.png" height="256" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/efb/f2f/b57/efbf2fb579eae876deaf158552e5d6f3.png" width="512"/></figure><p>Чтобы разместить больше символов на таком маленьком дисплее, некоторые символы вызываются удерживанием.</p><figure class="full-width"><img data-src="https://habrastorage.org/getpro/habr/upload_files/6f1/4d4/7ae/6f14d47aed15d30999df9e762e8ed021.png" height="400" src="https://habrastorage.org/r/w1560/getpro/habr/upload_files/6f1/4d4/7ae/6f14d47aed15d30999df9e762e8ed021.png" width="1091"/></figure><p>Изначально делал только для себя. Как только у меня получилась плюс-минус рабочая версия, я снял на видео процесс работы и выложил в групповой чат telegram сообщества Flipper Zero. Некоторым участникам сообщества идея и ее реализация показались интересными, они попросили поделиться исходным кодом проекта. Так что это моя первая публикация на Хабр и GitHub 😊</p><h2>Резюмируя</h2><p>В общем-то, я и сам понимаю, что в нормальных условиях работа в консоли с такого крохотного девайса — это боль и извращение. Но если романтизировать, то можно оказаться в разных условиях, где нет ни ноутбука, ни телефона, есть только Flipper, ты и роутер на дне кратера. </p><p>А если серьезно, то считаю, что в устройстве, которое зовется мультитулом для пентестеров и гиков, подобный функционал как минимум будет нелишним.</p><p><a href="https://github.com/cool4uma/UART_Terminal"><u>Ссылка на проект</u></a></p><p>Я в github и telegram <a class="mention" href="/users/cool4uma">@cool4uma</a></p><p></p></div></div></div> <!-- --> <!-- --></div> <!-- --> <!-- --></div> <!-- --> <div class="tm-article-presenter__meta"><div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Теги:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5Bflipperzero%5D">flipperzero</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BUART%5D">UART</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D0%A4%D0%BB%D0%B8%D0%BF%D0%BF%D0%B5%D1%80%5D">Флиппер</a></li><li class="tm-separated-list__item"><a class="tm-tags-list__link" href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D0%BA%D0%BB%D0%B0%D0%B2%D0%B8%D0%B0%D1%82%D1%83%D1%80%D0%B0%5D">клавиатура</a></li></ul></div> <div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Хабы:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a class="tm-hubs-list__link router-link-active" href="/ru/company/sportmaster_lab/blog/">Блог компании Sportmaster Lab</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/infosecurity/">Информационная безопасность</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/electronics/">Производство и разработка электроники</a></li><li class="tm-separated-list__item"><a class="tm-hubs-list__link" href="/ru/hub/gadgets/">Гаджеты</a></li></ul></div></div></article></div> <!-- --></div> <div class="tm-article-sticky-panel"><div class="tm-data-icons tm-article-sticky-panel__icons"><div class="tm-article-rating tm-data-icons__item"><div class="tm-votes-meter tm-article-rating__votes-switcher"><svg class="tm-svg-img tm-votes-meter__icon tm-votes-meter__icon tm-votes-meter__icon_appearance-article" height="24" width="24"><title>Всего голосов 37: ↑37 и ↓0</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-rating"></use></svg> <span class="tm-votes-meter__value tm-votes-meter__value tm-votes-meter__value_positive tm-votes-meter__value_appearance-article tm-votes-meter__value_rating" title="Всего голосов 37: ↑37 и ↓0">+37</span></div> <div class="v-portal" style="display:none;"></div></div> <!-- --> <!-- --> <button class="bookmarks-button tm-data-icons__item" title="Добавить в закладки" type="button"><span class="tm-svg-icon__wrapper bookmarks-button__icon"><svg class="tm-svg-img tm-svg-icon" height="24" width="24"><title>Добавить в закладки</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-favorite"></use></svg></span> <span class="bookmarks-button__counter" title="Количество пользователей, добавивших публикацию в закладки">
+    21
+  </span></button> <div class="tm-sharing tm-data-icons__item" title="Поделиться"><button class="tm-sharing__button" type="button"><svg class="tm-sharing__icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.8 13.8V18l7.2-6.6L13.8 5v3.9C5 8.9 3 18.6 3 18.6c2.5-4.4 6-4.8 10.8-4.8z" fill="currentColor"></path></svg></button> <div class="v-portal" style="display:none;"></div></div> <div class="tm-article-comments-counter-link tm-data-icons__item" title="Читать комментарии"><a class="tm-article-comments-counter-link__link" href="/ru/company/sportmaster_lab/blog/721000/comments/"><svg class="tm-svg-img tm-article-comments-counter-link__icon" height="24" width="24"><title>Комментарии</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value">
+      6
+    </span></a> <!-- --></div> <!-- --> <div class="v-portal" style="display:none;"></div></div></div></div> <div class="tm-article-presenter__footer"><div class="tm-article-blocks"><!-- --> <div></div> <section class="tm-block tm-block tm-block_spacing-bottom"><!-- --> <div class="tm-block__body tm-block__body tm-block__body_variant-balanced"><div class="tm-article-author"><div class="tm-article-author__company"><div class="tm-article-author__company-card"><div class="tm-company-snippet"><a class="tm-company-snippet__logo-link" href="/ru/company/sportmaster_lab/profile/"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" height="40" src="//habrastorage.org/getpro/habr/company/729/ece/5ac/729ece5acd5f1172e23ed478ef76d63f.jpg" width="40"/></div></a> <div class="tm-company-snippet__info"><a class="tm-company-snippet__title" href="/ru/company/sportmaster_lab/profile/">Sportmaster Lab</a> <div class="tm-company-snippet__description">Рассказываем о том, как мы делаем «Спортмастер»</div></div></div> <div class="tm-article-author__buttons"><!-- --> <!-- --></div></div> <div class="tm-article-author__company-contacts"><a class="tm-article-author__contact" href="https://career.habr.com/companies/sportmaster-lab" rel="noopener" target="_blank">
+      Сайт
+    </a><a class="tm-article-author__contact" href="https://facebook.com/job.sportmaster.russia" rel="noopener" target="_blank">
+      Facebook
+    </a><a class="tm-article-author__contact" href="https://vk.com/sm.career" rel="noopener" target="_blank">
       ВКонтакте
-    </a><a class="tm-article-author__contact" href="https://telegram.me/selectel" rel="noopener" target="_blank">
-      Telegram
-    </a></div> <div class="tm-article-author__separator"></div></div> <div class="tm-user-card tm-article-author__user-card tm-user-card tm-user-card_variant-article"><div class="tm-user-card__info-container"><div class="tm-user-card__header"><div class="tm-user-card__header-data"><a class="tm-user-card__userpic tm-user-card__userpic_size-40" href="/ru/users/Doctor_IT/"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" src="//habrastorage.org/getpro/habr/avatars/dc0/53c/6ea/dc053c6eae54a82bdee1862430f51afc.jpg"/></div></a> <div class="tm-user-card__meta"><div class="tm-counter-container tm-karma tm-karma" title=" 107 голосов "><div class="tm-counter-container__header"><div class="tm-karma__votes tm-karma__votes_positive">
-      77
+    </a></div> <div class="tm-article-author__separator"></div></div> <div class="tm-user-card tm-article-author__user-card tm-user-card tm-user-card_variant-article"><div class="tm-user-card__info-container"><div class="tm-user-card__header"><div class="tm-user-card__header-data"><a class="tm-user-card__userpic tm-user-card__userpic_size-40" href="/ru/users/cool4uma/"><div class="tm-entity-image"><img alt="" class="tm-entity-image__pic" src="//habrastorage.org/getpro/habr/avatars/205/398/21d/20539821dd8a9ed77ddb160292062bdc.jpg"/></div></a> <div class="tm-user-card__meta"><div class="tm-counter-container tm-karma tm-karma" title=" 6 голосов "><div class="tm-counter-container__header"><div class="tm-karma__votes tm-karma__votes_positive">
+      6
     </div></div> <div class="tm-counter-container__footer"><div class="tm-karma__text">
       Карма
     </div> <div class="v-portal" style="display:none;"></div></div></div> <div class="tm-counter-container" title="Рейтинг пользователя"><div class="tm-counter-container__header"> <div class="tm-votes-lever tm-votes-lever tm-votes-lever_appearance-rating"><!-- --> <div class="tm-votes-lever__score tm-votes-lever__score tm-votes-lever__score_appearance-rating"><span class="tm-votes-lever__score-counter tm-votes-lever__score-counter tm-votes-lever__score-counter_rating">
-        181.9
+        37
       </span></div> <!-- --></div></div> <div class="tm-counter-container__footer"><span class="tm-rating__text tm-rating__text">
       Рейтинг
-    </span></div></div></div></div></div> <div class="tm-user-card__info tm-user-card__info tm-user-card__info_variant-article"><div class="tm-user-card__title tm-user-card__title tm-user-card__title_variant-article"><span class="tm-user-card__name tm-user-card__name tm-user-card__name_variant-article">Влад Ефименко</span> <a class="tm-user-card__nickname tm-user-card__nickname tm-user-card__nickname_variant-article" href="/ru/users/Doctor_IT/">
-          @Doctor_IT
-        </a> <!-- --></div> <p class="tm-user-card__short-info tm-user-card__short-info tm-user-card__short-info_variant-article">Технический писатель</p></div></div> <div class="tm-user-card__buttons tm-user-card__buttons tm-user-card__buttons_variant-article"><!-- --> <!-- --> <!-- --> <!-- --> <!-- --></div></div> <!-- --></div> <div class="v-portal" style="display:none;"></div></div> <!-- --></section> <!-- --> <div class="tm-article-blocks__comments"><div class="tm-article-page-comments"><div class="tm-article-comments-counter-link tm-article-comments-counter-button"><a class="tm-article-comments-counter-link__link tm-article-comments-counter-link__link_button-style" href="/ru/company/selectel/blog/721558/comments/"><svg class="tm-svg-img tm-article-comments-counter-link__icon tm-article-comments-counter-link__icon_contrasted" height="24" width="24"><title>Комментарии</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value tm-article-comments-counter-link__value_contrasted">
-       Комментарии 14 
+    </span></div></div></div></div></div> <div class="tm-user-card__info tm-user-card__info tm-user-card__info_variant-article"><div class="tm-user-card__title tm-user-card__title tm-user-card__title_variant-article"><span class="tm-user-card__name tm-user-card__name tm-user-card__name_variant-article">Зубайраев Б.У</span> <a class="tm-user-card__nickname tm-user-card__nickname tm-user-card__nickname_variant-article" href="/ru/users/cool4uma/">
+          @cool4uma
+        </a> <!-- --></div> <p class="tm-user-card__short-info tm-user-card__short-info tm-user-card__short-info_variant-article">Пользователь</p></div></div> <div class="tm-user-card__buttons tm-user-card__buttons tm-user-card__buttons_variant-article"><!-- --> <!-- --> <!-- --> <!-- --> <!-- --></div></div> <!-- --></div> <div class="v-portal" style="display:none;"></div></div> <!-- --></section> <!-- --> <div class="tm-article-blocks__comments"><div class="tm-article-page-comments"><div class="tm-article-comments-counter-link tm-article-comments-counter-button"><a class="tm-article-comments-counter-link__link tm-article-comments-counter-link__link_button-style" href="/ru/company/sportmaster_lab/blog/721000/comments/"><svg class="tm-svg-img tm-article-comments-counter-link__icon tm-article-comments-counter-link__icon_contrasted" height="24" width="24"><title>Комментарии</title> <use xlink:href="/img/megazord-v28.617e16ca..svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value tm-article-comments-counter-link__value_contrasted">
+       Комментарии 6 
     </span></a> <!-- --></div></div></div> <section class="tm-block tm-block tm-block_spacing-bottom"><header class="tm-block__header tm-block__header tm-block__header_variant-borderless"><div class="tm-block__header-container"><h2 class="tm-block__title tm-block__title tm-block__title_variant-large">Публикации</h2> </div> <!-- --></header> <div class="tm-block__body tm-block__body tm-block__body_variant-condensed-slim"><div class="tm-tabs tm-tabs"><div><span class="tm-tabs__tab-item"><button class="tm-tabs__tab-link tm-tabs__tab-link tm-tabs__tab-link_active tm-tabs__tab-link_slim">
         Лучшие за сутки
       </button></span><span class="tm-tabs__tab-item"><button class="tm-tabs__tab-link tm-tabs__tab-link tm-tabs__tab-link_slim">

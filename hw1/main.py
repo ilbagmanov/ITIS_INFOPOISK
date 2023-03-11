@@ -8,8 +8,8 @@ def getLinks():
     for i in range(1, config.HABR_PAGE_COUNT + 1):
         url = f'https://habr.com/ru/all/page{i}/'
         soup = bs4.BeautifulSoup(requests.get(url).text, features="lxml")
-        for item in soup.select("a.tm-article-snippet__title-link"):
-            links.append('https://habr.com' + item['href'])
+        for data in soup.select("a.tm-article-snippet__title-link"):
+            links.append('https://habr.com' + data['href'])
     return links
     
 
@@ -17,15 +17,12 @@ def getLinks():
 if __name__ == '__main__':
     links = getLinks()
     index_file = open('index.txt', "w", encoding="utf-8")
-    os.makedirs(os.path.dirname('Выкачка/'), exist_ok=True)
+    os.makedirs(os.path.dirname(f'{config.FOLDER}/'), exist_ok=True)
     for i, link in enumerate(links):
-        soup = bs4.BeautifulSoup(requests.get(link).text, features="lxml")
-        for data in soup(['style', 'script', 'meta', 'link', 'code']):
+        html = bs4.BeautifulSoup(requests.get(link).text, features="lxml")
+        for data in html(config.TAGS):
             data.decompose()
-        html_of_url = str(soup)
-        filename = f'{i}'
-        index_file.write(f"{filename}\t{link}\n")
-        path_result = f"Выкачка/{filename}.html"
-        with open(path_result, "w", encoding="utf-8") as html_file:
-            html_file.write(html_of_url)
+        index_file.write(f"{str(i)}\t{link}\n")
+        with open(f"{config.FOLDER}/{str(i)}.html", "w", encoding="utf-8") as html_file:
+            html_file.write(str(html))
     index_file.close()
