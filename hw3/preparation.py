@@ -1,19 +1,19 @@
 from collections import defaultdict
 import os
+import re
 
-DIRECTORY = 'Выкачка_очищенная'
+DIRECTORY = 'леммы'
 
 def get_lemmas(text):
     return [token.split(':')[0] for token in text.split()]
 
 def get_inverted_index():
     term_documents_dict = defaultdict(list)
-    idx = 0
     for root, dirs, files in os.walk(DIRECTORY):
         print(files)
         for file in files:
             if file.lower().endswith('.txt') and file.lower().startswith('lemmas'):
-                idx += 1
+                idx = re.search('\d+', file).group(0)
                 with open(os.path.join(root, file), encoding='utf-8') as f:
                     lemmas = get_lemmas(f.read())
                 for lemma in lemmas:

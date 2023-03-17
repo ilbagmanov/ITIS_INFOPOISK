@@ -4,7 +4,7 @@ import sys
 
 from nltk import RegexpTokenizer
 from pymorphy2 import MorphAnalyzer
-from inverted_index import get_inverted_index
+from preparation import get_inverted_index
 
 OPERATORS = ['&', '|']
 ALL_DOCUMENTS = set(range(100))
@@ -99,6 +99,7 @@ def tokenize_query(query):
 
 if __name__ == '__main__':
     QUERY = sys.argv[1]
+    print(QUERY)
     tokenized_query = tokenize_query(QUERY)
     converted_query = get_notation(tokenized_query)
     result = evaluate(converted_query)
