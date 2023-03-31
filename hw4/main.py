@@ -37,14 +37,14 @@ def find_tf_idf(tf, idf):
         tf_idf[term] = tf_value * idf[term]
     return tf_idf
 
-def save(terms_tf_idf, terms_idf, type):
-    for doc_num, tf_idf in enumerate(terms_tf_idf):
+def save(docs_tf_idf, docs_idf, type):
+    for doc_num, tf_idf in enumerate(docs_tf_idf):
         num_file = f'{doc_num}'
         path = f'tf_idf/{type}/{type}_{num_file}.txt'
         os.makedirs(os.path.dirname(path), exist_ok=True)
         file_result = open(path, "w", encoding="utf-8")
         for term, tf_idf_value in tf_idf.items():
-            file_result.write(term + " " + str(terms_idf[term]) + " " + str(tf_idf_value))
+            file_result.write(term + " " + str(docs_idf[term]) + " " + str(tf_idf_value))
             file_result.write("\n")
         file_result.close()
 
