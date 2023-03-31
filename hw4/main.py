@@ -7,7 +7,7 @@ from config import PAGES_COUNT
 
 
 
-# Ссылка на ресурс, где описаны формалы - https://sysblok.ru/glossary/kak-vychislit-tf-idf/
+# Ссылка на ресурс, где описаны формулы - https://sysblok.ru/glossary/kak-vychislit-tf-idf/
 
 # TF - количество употребления ключевого термина по отношению ко всем словам в документе
 def find_tf(terms_in_document):
