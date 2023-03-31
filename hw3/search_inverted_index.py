@@ -7,7 +7,7 @@ from pymorphy2 import MorphAnalyzer
 from preparation import get_inverted_index
 
 OPERATORS = ['&', '|']
-ALL_DOCUMENTS = set(range(100))
+ALL_DOCUMENTS = set(range(120))
 PRIORITY = {'&': 2, '|': 1}
 REGEX_TOKENIZER = RegexpTokenizer(r'[А-Яа-яёЁ&(\|)~\)\(]+')
 PYMORPHY2_ANALYZER = MorphAnalyzer()
